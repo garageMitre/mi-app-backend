@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfig, DatabaseConfig } from './config';
 import { CategoriesModule } from './categories/categories.module';
 import { ExpensesModule } from './expenses/expenses.module';
+import { IncomesModule } from './incomes/incomes.module';
+import { ImportModule } from './import/import.module';
+import { BalanceModule } from './balance/balance.module';
 
 
 @Module({
@@ -22,6 +25,9 @@ import { ExpensesModule } from './expenses/expenses.module';
     }),
     CategoriesModule,
     ExpensesModule,
+    IncomesModule,
+    ImportModule,
+    BalanceModule,
   ],
   controllers: [],
   providers: [],

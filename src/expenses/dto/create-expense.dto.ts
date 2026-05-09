@@ -44,4 +44,8 @@ export class CreateExpenseDto {
   @IsInt()
   @IsPositive()
   categoryId!: number;
+
+  @IsString()
+  @IsOptional()
+  fromAccount?: string;
 }

@@ -1,9 +1,11 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Category } from '../categories/category.entity';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum ExpenseType {
-  FIXED = 'FIXED',
-  VARIABLE = 'VARIABLE',
+export enum IncomeSource {
+  SALARY     = 'SALARY',
+  FREELANCE  = 'FREELANCE',
+  TRANSFER   = 'TRANSFER',
+  REFUND     = 'REFUND',
+  OTHER      = 'OTHER',
 }
 
 export enum MoneyType {
@@ -11,8 +13,8 @@ export enum MoneyType {
   USD = 'USD',
 }
 
-@Entity('expenses')
-export class Expense {
+@Entity('incomes')
+export class Income {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -25,32 +27,19 @@ export class Expense {
   @Column({ type: 'date' })
   date!: string;
 
-  @Column({ type: 'enum', enum: ExpenseType })
-  type!: ExpenseType;
-
-  @Column({ type: 'enum', enum: MoneyType, default: MoneyType[0] })
+  @Column({ type: 'enum', enum: MoneyType, default: MoneyType.ARS })
   moneyType!: MoneyType;
 
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   usdToArsRate!: number | null;
 
-  @Column({ default: false })
-  isRecurring!: boolean;
-
-  @Column({ nullable: true })
-  recurringDay!: number;
-
-  @ManyToOne(() => Category, (category) => category.expenses, { eager: true })
-  category!: Category;
-
-  @Column()
-  categoryId!: number;
+  @Column({ type: 'enum', enum: IncomeSource, default: IncomeSource.OTHER })
+  source!: IncomeSource;
 
   @Column({ type: 'varchar', nullable: true })
   externalId!: string | null;
 
-  // which balance account this expense came from: 'banco' | 'efectivo'
-  @Column({ default: 'efectivo' })
+  @Column({ default: 'banco' })
   fromAccount!: string;
 
   // 'bbva_import' if imported from bank statement; null if manually created
